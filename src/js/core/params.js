@@ -11,18 +11,19 @@ var trial_pairs = [
     
 ]
 
-var runIntro = true;
-var runInstr = true;
+var runIntro = false;
+var runInstr = false;
 var runExpt = true;
-var runClose = true;
+var runClose = false;
 var runPreload = true;
 
 // Defining Core Variables that remain constant
 var PRESTIM_DISP_TIME = 800;
-var FIXATION_DISP_TIME = 500;
+var FIXATION_DISP_TIME = 2500;
+var MASK_DISP_TIME = 300;
 
 // Variables for Participant Information
-var estTotalRunTime = 5;
+var estTotalRunTime = 2;
 var estDollars = 0.9;
 var participantType = 'prolific';
 var completionCode = 'C4MF2IV1';
@@ -41,18 +42,25 @@ var timelineclose = [];
 var forPreload = [];
 var full_check = false;
 var w =
+    window.screen.width ||
     window.innerWidth ||
     document.documentElement.clientWidth ||
     document.body.clientWidth;
 var h =
+    window.screen.height ||
     window.innerHeight ||
-    document.documentElement.clientHeight ||
+    document.documentElement.clientHeight || 
     document.body.clientHeight;
 
 // setting display image width
-var origWidth = 300;
-var origHeight = 300;
-var imgWidth = 150; // your desired display img width
-var imgHeight = (imgWidth / origWidth) * origHeight;
+var origWidth = 1920;
+var origHeight = 1080;
 
+if (w < 1000){ //if the participant's screen is abnormally small, set the image to scale to ~40% of their screen dimenstions
+    var imgWidth = 0.4*w
+    var imgHeight = (imgWidth / origWidth) * origHeight;
+} else { 
+    var imgWidth = 500; // your desired display img width (NOTE THE DEFAULT IS 150 PX)
+    var imgHeight = (imgWidth / origWidth) * origHeight;
+}
 

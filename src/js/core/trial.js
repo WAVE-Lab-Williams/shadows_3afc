@@ -4,9 +4,8 @@ PUSHING/RUNNING A CUSTOM SINGLE TRIAL (*singleTrial)
 ===============================================================
 */
 function runSingleTrial(
-    image_x,
-    image_y,
-    image_z,
+    target_object,
+    target_shadow,
     stimDuration,
     timelineTrialsToPush,
     trialType,
@@ -47,19 +46,19 @@ function runSingleTrial(
     };
 
     /*--------------------------- Experiment specific variables ---------------------------*/
-    var thisStim = `${stimFolder}${image_x}_sha${image_}.png`
-    var 
+    var thisTarget = `${stimFolder}obj${target_object}_sha${target_shadow}.png`;
     var persistent_prompt = `<div style="position: fixed; top: 50px; left: 50%; transform: translateX(-50%); text-align: center;">f = blue; j = orange </div>`;
-
 
     var dispImage = {
         type: jsPsychImageKeyboardResponse,
-        stimulus: thisStim,
+        stimulus: thisTarget,
         choices: "NO_KEYS",
-        stimulus_height: imgHeight,
-        stimulus_duration: stimDuration,
-        trial_duration: null
-    }; // dispCircle end
+        stimulus_width: imgWidth,
+        trial_duration: stimDuration,
+        data: {
+            trial_category: 'dispImage' + trialType,
+        }
+    }; // dispImage end
 
     var prestim = {
         type: jsPsychHtmlKeyboardResponse,
@@ -68,6 +67,16 @@ function runSingleTrial(
         trial_duration: PRESTIM_DISP_TIME,
         data: {
             trial_category: 'prestim_ISI' + trialType,
+        }
+    };
+
+    var mask = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `${persistent_prompt}<img src="${stimFolder}mask.png" style="width: ${imgWidth}px;">`,
+        choices: "NO_KEYS",
+        trial_duration: MASK_DISP_TIME,
+        data: {
+            trial_category: 'mask' + trialType,
         }
     };
 
@@ -81,18 +90,32 @@ function runSingleTrial(
         }
     };
 
-    var 3afc_trial = {
+    var poss_AFCchoices = [
+            `<img src="${stimFolder}objA_shaA.png" style="width: ${imgWidth}px;">`,
+            `<img src="${stimFolder}objB_shaB.png" style="width: ${imgWidth}px;">`,
+            `<img src="${stimFolder}objC_shaC.png" style="width: ${imgWidth}px;">`,
+            `<img src="${stimFolder}objD_shaD.png" style="width: ${imgWidth}px;">`,
+        ];
+    
+    var shuffled_AFCchoices = shuffle(poss_AFCchoices);
+
+    var afc_trial = {
         type: jsPsychHtmlButtonResponse,
         stimulus: `<h1>Select the image you saw:</h1>`,
-        choices: [
-            `<img src=".png style="width: imgWidth;">`
-            `<img src=".png style="width: imgWidth;">`
-            `<img src=".png style="width: imgWidth;">`
-        ],
-        button_html: `<button class="jspsych-btn image-choice">%choice%</button>`
+        choices: shuffled_AFCchoices,
+        button_html: `<button class="jspsych-btn image-choice">%choice%</button>`,
+        data: {
+            afc_order: shuffled_AFCchoices,
+            target_object: target_object, 
+            target_shadow: target_shadow,
+            trial_category: "afc" + trialType
+        },
+        on_finish: function(data){
+            chosen_path = shuffled_AFCchoices[data.response]
+            const shorter_chosen = chosen_path.match(/obj[^.]*/)?.[0];
+            data.chosen_image = shorter_chosen;
+        }
     }; // end 3afc_trial
-
-
 
     /*--------------------------- push single trial sequence ---------------------------*/
 
@@ -101,7 +124,8 @@ function runSingleTrial(
     timelineTrialsToPush.push(prestim);
     timelineTrialsToPush.push(fixation);
     timelineTrialsToPush.push(dispImage);
-    timelineTrialsToPush.push(3afc_trial);
+    timelineTrialsToPush.push(mask);
+    timelineTrialsToPush.push(afc_trial);
     timelineTrialsToPush.push(cursor_on);
 
 }

@@ -161,13 +161,13 @@ INSTR PROCEDURE (*sec_instr)
 
 /* -------  Set Preload Images for Instr + Demo (*preload_instr) -------------- */
 
-forPreload.push(`${stimFolder}demo-circles.png`);
+// forPreload.push(`${stimFolder}demo-circles.png`);
 // make sure to load any images you need for the demo itself. Usually you have different demo images than the main expt, such that you don't give away the content of the expt itself (but still give the participant practice and familiarity with the task. In this case, though, the demo images themselves are identical to the main expt. Variable names are the only difference.
 var demo_circle_colors = ["blue","orange"];
 var demo_display_durations = [200, 500];
-for (var i = 0; i < demo_circle_colors.length; i++) {
-    forPreload.push(`${stimFolder}${demo_circle_colors[i]}-circle.png`);
-}
+//for (var i = 0; i < demo_circle_colors.length; i++) {
+//    forPreload.push(`${stimFolder}${demo_circle_colors[i]}-circle.png`);
+// }
 
 //decide what the parameters for the demo trial should be. Sometimes you hardcode this, sometimes you randomly choose from the options you defined above.
 var thisDemoCircle = randomChoice(demo_circle_colors,1)[0];
@@ -209,7 +209,7 @@ var instructions2 = {
 };
 
 timelineinstr.push(instructions1);
-runSingleTrial(thisDemoCircle,thisDemoDispDuration,timelineinstr,"prac") // pushesyour demo trial
+// runSingleTrial(thisDemoCircle,thisDemoDispDuration,timelineinstr,"prac") // pushesyour demo trial (COMMENTED OUT ON PURPOSE)
 timelineinstr.push(instructions2);
 
 /*
@@ -219,27 +219,36 @@ EXPERIMENT SECTION (*sec_expt)
 */
 
 /* -------- defining factors && exptdesign (*factors) --------*/
+var poss_objects = ["A", "B", "C", "D"];
+var poss_shadows = ["A", "B", "C", "D"];
+var poss_disp_duration = [500];
 
-var poss_circle_colors = ["blue","orange"];
-var poss_disp_duration = [200, 500];
+var test_objects = ["A","C"]
+var test_shadows = ["B"]
 
 var factors = {
-    circle_color: poss_circle_colors,
+    object: test_objects,
+    shadow: test_shadows,
     disp_duration: poss_disp_duration
-}
+};
 
 var full_design = jsPsych.randomization.factorial(factors, 1);
 console.log(full_design);
 
 /* -------  Set Preload Images for Expt (*preload_expt) -------------- */
-for (var i = 0; i < poss_circle_colors.length; i++) {
-    forPreload.push(`${stimFolder}${poss_circle_colors[i]}-circle.png`);
-}
+for (var i = 0; i < poss_objects.length; i++){
+    for (var j = 0; j < poss_shadows.length; j++){
+        forPreload.push(`${stimFolder}obj${poss_objects[i]}_sha${poss_shadows[j]}.png`)
+    }
+};
+
+forPreload.push(`${stimFolder}mask.png`); // preload isi mask for viewing
 
 /* ------- timeline expt push (*pushExpt ) -------------- */
 for (var elem = 0; elem < full_design.length; elem++) {
     runSingleTrial(
-        full_design[elem].circle_color,
+        full_design[elem].object,
+        full_design[elem].shadow,
         full_design[elem].disp_duration,
         timelineexpt,
         'expt',
