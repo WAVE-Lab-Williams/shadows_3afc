@@ -47,7 +47,7 @@ function runSingleTrial(
 
     /*--------------------------- Experiment specific variables ---------------------------*/
     var thisTarget = `${stimFolder}obj${target_object}_sha${target_shadow}.png`;
-    var persistent_prompt = `<div style="position: fixed; top: 50px; left: 50%; transform: translateX(-50%); text-align: center;">f = blue; j = orange </div>`;
+    var persistent_prompt = `<div style="position: fixed; top: 50px; left: 50%; transform: translateX(-50%); text-align: center;"></div>`;
 
     var dispImage = {
         type: jsPsychImageKeyboardResponse,

@@ -12,7 +12,7 @@ var trial_pairs = [
 ]
 
 var runIntro = false;
-var runInstr = false;
+var runInstr = true;
 var runExpt = true;
 var runClose = false;
 var runPreload = true;
