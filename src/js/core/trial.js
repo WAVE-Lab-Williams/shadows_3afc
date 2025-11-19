@@ -82,7 +82,7 @@ function runSingleTrial(
 
     var fixation = {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: `${persistent_prompt}<div style="font-size:60px;">+</div>`,
+        stimulus: `${persistent_prompt}<div style="font-size:60px;"></div>`,
         choices: "NO_KEYS",
         trial_duration: FIXATION_DISP_TIME,
         data: {
@@ -110,10 +110,15 @@ function runSingleTrial(
             target_shadow: target_shadow,
             trial_category: "afc" + trialType
         },
+        trial_duration: AFC_TIME, 
         on_finish: function(data){
-            chosen_path = shuffled_AFCchoices[data.response]
-            const shorter_chosen = chosen_path.match(/obj[^.]*/)?.[0];
-            data.chosen_image = shorter_chosen;
+            if (data.response == null) {
+                data.chosen_image = "timedout"
+            } else {
+                chosen_path = shuffled_AFCchoices[data.response]
+                const shorter_chosen = chosen_path.match(/obj[^.]*/)?.[0];
+                data.chosen_image = shorter_chosen;
+            }
         }
     }; // end 3afc_trial
 

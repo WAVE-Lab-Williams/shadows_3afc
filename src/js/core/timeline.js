@@ -223,8 +223,8 @@ var poss_objects = ["A", "B", "C", "D"];
 var poss_shadows = ["A", "B", "C", "D"];
 var poss_disp_duration = [500];
 
-var test_objects = ["A","C"]
-var test_shadows = ["B"]
+var test_objects = ["A", "B"]
+var test_shadows = ["A", "B", "C", "D"]
 
 var factors = {
     object: test_objects,
@@ -245,7 +245,7 @@ for (var i = 0; i < poss_objects.length; i++){
 forPreload.push(`${stimFolder}mask.png`); // preload isi mask for viewing
 
 /* ------- timeline expt push (*pushExpt ) -------------- */
-for (var elem = 0; elem < full_design.length; elem++) {
+for (var elem = 0; elem < 1; elem++) {
     runSingleTrial(
         full_design[elem].object,
         full_design[elem].shadow,

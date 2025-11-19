@@ -12,7 +12,7 @@ var trial_pairs = [
 ]
 
 var runIntro = false;
-var runInstr = true;
+var runInstr = false;
 var runExpt = true;
 var runClose = false;
 var runPreload = true;
@@ -21,6 +21,7 @@ var runPreload = true;
 var PRESTIM_DISP_TIME = 800;
 var FIXATION_DISP_TIME = 2500;
 var MASK_DISP_TIME = 300;
+var AFC_TIME = 10000
 
 // Variables for Participant Information
 var estTotalRunTime = 2;
