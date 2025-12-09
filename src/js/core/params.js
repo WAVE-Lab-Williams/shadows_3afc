@@ -12,7 +12,7 @@ var trial_pairs = [
 ]
 
 var runIntro = false;
-var runInstr = false;
+var runInstr = true;
 var runExpt = true;
 var runClose = false;
 var runPreload = true;
@@ -24,7 +24,7 @@ var MASK_DISP_TIME = 300;
 var AFC_TIME = 10000
 
 // Variables for Participant Information
-var estTotalRunTime = 2;
+var estTotalRunTime = 5;
 var estDollars = 0.9;
 var participantType = 'prolific';
 var completionCode = 'C4MF2IV1';

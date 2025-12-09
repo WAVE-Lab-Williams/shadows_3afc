@@ -82,7 +82,7 @@ function runSingleTrial(
 
     var fixation = {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: `${persistent_prompt}<div style="font-size:60px;"></div>`,
+        stimulus: `${persistent_prompt}<img src="${stimFolder}frame.png" style="width: ${1.31*imgWidth}px;">`, //1.31 so frame fits around image
         choices: "NO_KEYS",
         trial_duration: FIXATION_DISP_TIME,
         data: {
