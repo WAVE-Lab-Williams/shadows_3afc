@@ -72,7 +72,7 @@ function runSingleTrial(
 
     var mask = {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: `${persistent_prompt}<img src="${stimFolder}mask.png" style="width: ${imgWidth}px;">`,
+        stimulus: `${persistent_prompt}<img src="${stimFolder}mask_v2.png" style="width: ${imgWidth}px;">`,
         choices: "NO_KEYS",
         trial_duration: MASK_DISP_TIME,
         data: {
