@@ -163,15 +163,15 @@ INSTR PROCEDURE (*sec_instr)
 
 // forPreload.push(`${stimFolder}demo-circles.png`);
 // make sure to load any images you need for the demo itself. Usually you have different demo images than the main expt, such that you don't give away the content of the expt itself (but still give the participant practice and familiarity with the task. In this case, though, the demo images themselves are identical to the main expt. Variable names are the only difference.
-var demo_circle_colors = ["blue","orange"];
-var demo_display_durations = [200, 500];
+//var demo_circle_colors = ["blue","orange"];
+//var demo_display_durations = [200, 500];
 //for (var i = 0; i < demo_circle_colors.length; i++) {
 //    forPreload.push(`${stimFolder}${demo_circle_colors[i]}-circle.png`);
 // }
 
 //decide what the parameters for the demo trial should be. Sometimes you hardcode this, sometimes you randomly choose from the options you defined above.
-var thisDemoCircle = randomChoice(demo_circle_colors,1)[0];
-var thisDemoDispDuration = randomChoice(demo_display_durations,1)[0];
+//var thisDemoCircle = randomChoice(demo_circle_colors,1)[0];
+//var thisDemoDispDuration = randomChoice(demo_display_durations,1)[0];
 
 /* -------  Push Instr + Demo Trials to timeline_instr (*push_instr) -------------- */
 var instrContent = loadInstrContent();
