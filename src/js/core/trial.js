@@ -120,7 +120,7 @@ function runSingleTrial(
                 data.chosen_image = shorter_chosen;
             }
         }
-    }; // end 3afc_trial
+    }; // end afc_trial
 
     /*--------------------------- push single trial sequence ---------------------------*/
 

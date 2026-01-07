@@ -11,7 +11,7 @@ var trial_pairs = [
     
 ]
 
-var runIntro = false;
+var runIntro = true;
 var runInstr = true;
 var runExpt = true;
 var runClose = false;
@@ -24,10 +24,10 @@ var MASK_DISP_TIME = 300;
 var AFC_TIME = 10000
 
 // Variables for Participant Information
-var estTotalRunTime = 5;
-var estDollars = 0.9;
+var estTotalRunTime = 4;
+var estDollars = 0.55;
 var participantType = 'prolific';
-var completionCode = 'C4MF2IV1';
+var completionCode = 'C31LNN84';
 var prolific_url = 'https://app.prolific.co/submissions/complete?cc='+completionCode;
 
 // WAVE Backend Configuration

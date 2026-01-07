@@ -30,8 +30,9 @@ import WaveClient from 'https://cdn.jsdelivr.net/gh/WAVE-Lab-Williams/wave-clien
 // Extract URL parameters
 const urlParams = new URLSearchParams(window.location.search);
 const WAVE_API_KEY = urlParams.get('key');
-const EXPERIMENT_ID = urlParams.get('experiment_id');
-const PARTICIPANT_ID = urlParams.get('participant_id');
+const EXPERIMENT_ID = urlParams.get('experiment_id') || null;
+// Handle edge case: treat empty string as null to avoid overriding user input
+const PARTICIPANT_ID = urlParams.get('participant_id') || null;
 
 // Global variables for WAVE integration
 let waveClient = null;
@@ -87,27 +88,34 @@ function initializeWaveClient() {
 }
 
 // Log experiment data to WAVE backend
-async function logToWave(data) {
+async function logToWave(data, experiment_id, participant_id) {
     if (!waveEnabled || !waveClient) {
         return null;
     }
 
     try {
-        const response = await waveClient.logExperimentData(EXPERIMENT_ID, PARTICIPANT_ID, data);
+        const response = await waveClient.logExperimentData(experiment_id, participant_id, data);
         console.log('✅ Data logged to WAVE:', response);
         return response;
     } catch (error) {
         console.error('❌ Failed to log data to WAVE:', error);
-        console.error('❌ This may indicate experiment schema mismatch or missing schema definition');
+        console.error('❌ Data that failed to log:', data);
+        console.error(
+          '❌ This may indicate experiment schema mismatch, missing schema definition,',
+          'or too many writes to the backend in close proximity'
+        );
         return null;
     }
 }
 
 // Enhanced JSPsych data processing
 function processTrialData(data) {
-    // Add WAVE-specific fields
-    data.experiment_id = EXPERIMENT_ID;
-    data.participant_id = PARTICIPANT_ID;
+    // Add WAVE-specific standard fields
+    // checks if PARTICIPANT_ID (pulled from URL) is "null"
+    // if yes, uses data.participant_id (input during experiment) instead
+    // ensures fields are explicitly null (not undefined) for consistent output
+    data.participant_id = PARTICIPANT_ID ?? data.participant_id ?? null;
+    data.experiment_id = EXPERIMENT_ID ?? data.experiment_id ?? null;
     data.timestamp = new Date().toISOString();
     data.user_agent = navigator.userAgent;
 
@@ -121,17 +129,20 @@ function processTrialData(data) {
             trial_category: data.trial_category,
             stimulus: data.stimulus,
             response: data.response,
-            response_time: data.rt / 1000, // Convert to seconds
-            accuracy: data.thisAcc === 1,
+            response_time: data.rt,
+            accuracy: data.thisAcc,
             correct_response: data.correct_response,
             stimulus_duration: data.trial_duration,
             time_elapsed: data.time_elapsed,
-            participant_id: data.participant_id,
             timestamp: data.timestamp,
-            user_agent: data.user_agent
+            user_agent: data.user_agent,
+            chosen_image: data.chosen_image,
+            afc_order: data.afc_order,
+            target_object: data.target_object, 
+            target_shadow: data.target_shadow,
         };
 
-        logToWave(waveData);
+        logToWave(waveData, data.experiment_id, data.participant_id);
     }
 
     return data;
@@ -170,9 +181,7 @@ window.waveClient = {
     enabled: () => waveEnabled,
     log: logToWave,
     processTrialData: processTrialData,
-    handleCompletion: handleExperimentCompletion,
-    getExperimentId: () => EXPERIMENT_ID,
-    getParticipantId: () => PARTICIPANT_ID
+    handleCompletion: handleExperimentCompletion
 };
 
 console.log('📡 WAVE Client setup complete');

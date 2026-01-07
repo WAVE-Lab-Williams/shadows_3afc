@@ -241,8 +241,8 @@ for (var i = 0; i < poss_objects.length; i++){
         forPreload.push(`${stimFolder}obj${poss_objects[i]}_sha${poss_shadows[j]}.png`)
     }
 };
-
-forPreload.push(`${stimFolder}mask.png`); // preload isi mask for viewing
+forPreload.push(`${stimFolder}frame.png`); // preload frame for instructions!
+forPreload.push(`${stimFolder}mask_v3.png`); // preload isi mask for viewing
 
 /* ------- timeline expt push (*pushExpt ) -------------- */
 for (var elem = 0; elem < 1; elem++) {
