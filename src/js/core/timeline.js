@@ -30,7 +30,7 @@ JSPsych Init, and onFinish (*sec_init)
 var jsPsych = initJsPsych({
     on_trial_finish: function(data) {
         // console.log(JSON.stringify(data));
-        data.pNo = workerID;
+        data.participant_id == workerID;
         
         // Process data through WAVE client if available
         if (window.waveClient) {
