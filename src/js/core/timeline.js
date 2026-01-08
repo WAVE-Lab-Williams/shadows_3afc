@@ -128,9 +128,12 @@ var id = {
                 );
             } else if (workerID.startsWith('no_query')) {
                 console.log(
-                    `The query was not successfully captured, or there was nothing to query, going with manual input. ${respObj[key]}`,
+                    `The query was not successfully captured, or there was nothing to query, going with manual input. workerID now = ${respObj[key]}`,
                 );
                 workerID = respObj[key];
+            } else if (workerID.startsWith('manual_input')) {
+                console.log(`The query designates to go with the manual input. workerID now = ${respObj[key]}`)
+                workerID = respObj[key]
             } else {
                 console.log(
                     'The manual type differed from the query capture, going with query capture. Assuming the manual input was the wrong one, and that query was correct.',
