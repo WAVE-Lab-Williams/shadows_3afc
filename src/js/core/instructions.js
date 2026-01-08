@@ -31,11 +31,16 @@ function requestIDinput(participantType, workerID) {
         var insert = participantType + ' ID';
     }
 
-    if (workerID != 'no_query' && workerID != undefined) {
-        console.log(workerID);
+    if (workerID.startsWith('manual')){
+        console.log('Query-captured workerID requires manual input.')
         var inputbox =
             '<p>Please provide your ' +
             insert +
+            ":</p><br><input required='true' autofocus='true' name='numberID' type='text' size='70' />";
+    } else if (workerID != 'no_query' && workerID != undefined) {
+        console.log(workerID);
+        var inputbox =
+            '<p>Please enter your initials (no spaces, no punctuation): ' +
             ":</p><br><input required='true' autofocus='true' name='numberID' type='text' size='70' value='" +
             workerID +
             "' />";
