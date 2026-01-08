@@ -30,7 +30,7 @@ JSPsych Init, and onFinish (*sec_init)
 var jsPsych = initJsPsych({
     on_trial_finish: function(data) {
         // console.log(JSON.stringify(data));
-        data.participant_id == workerID;
+        data.participant_id = workerID;
         
         // Process data through WAVE client if available
         if (window.waveClient) {
@@ -296,11 +296,16 @@ var closing = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: closingText(participantType),
     choices: [' '],
-    data: { trial_category: 'closing' }
+    data: { trial_category: 'closing' },
+    on_finish: function(){
+        if (participantType == 'prolific') {
+            window.open(prolific_url, '_blank');
+        }
+    }, // on finish complete
 };
 
-timelineclose.push(feedback_summary);
-timelineclose.push(debrief_qs);
+//timelineclose.push(feedback_summary);
+//timelineclose.push(debrief_qs);
 timelineclose.push({ type: jsPsychFullscreen, fullscreen_mode: false });
 timelineclose.push(closing);
 

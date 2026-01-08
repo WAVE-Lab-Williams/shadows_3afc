@@ -14,7 +14,7 @@ var trial_pairs = [
 var runIntro = true;
 var runInstr = true;
 var runExpt = true;
-var runClose = false;
+var runClose = true;
 var runPreload = true;
 
 // Defining Core Variables that remain constant
