@@ -105,8 +105,11 @@ function runSingleTrial(
         choices: shuffled_AFCchoices,
         button_html: `<button class="jspsych-btn image-choice">%choice%</button>`,
         data: {
-            afc_order: shuffled_AFCchoices,
-            target_object: target_object, 
+            afc_order: function(){
+                console.log(JSON.stringify(shuffled_AFCchoices))
+                return JSON.stringify(shuffled_AFCchoices)
+            },
+            target_object: target_object,
             target_shadow: target_shadow,
             trial_category: "afc" + trialType
         },

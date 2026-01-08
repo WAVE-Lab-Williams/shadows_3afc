@@ -296,7 +296,12 @@ var closing = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: closingText(participantType),
     choices: [' '],
-    data: { trial_category: 'closing' }
+    data: { trial_category: 'closing' },
+    on_finish: function(){
+        if (participantType == 'prolific') {
+            window.open(prolific_url, '_blank');
+        }
+    }, // on finish complete
 };
 
 //timelineclose.push(feedback_summary);
