@@ -17,10 +17,13 @@ Before using this template with WAVE data logging, you MUST:
 Required URL Parameters:
 - key: WAVE API key
 - experiment_id: Experiment UUID from WAVE backend (schema must exist!)
-- participant_id: Unique participant identifier
+- participant_id: Unique participant identifier (or PROLIFIC_PID for Prolific platform)
 
-Example URL:
+Example URLs:
 runexperiment.html?key=your_api_key&experiment_id=experiment_uuid&participant_id=P001
+runexperiment.html?key=your_api_key&experiment_id=experiment_uuid&PROLIFIC_PID=5f8c3a2b1d9e4f
+
+Note: PROLIFIC_PID is checked first, then participant_id. Either one will work.
 
 For more information: https://github.com/WAVE-Lab-Williams/wave-client/
 */
@@ -32,7 +35,8 @@ const urlParams = new URLSearchParams(window.location.search);
 const WAVE_API_KEY = urlParams.get('key');
 const EXPERIMENT_ID = urlParams.get('experiment_id') || null;
 // Handle edge case: treat empty string as null to avoid overriding user input
-const PARTICIPANT_ID = urlParams.get('participant_id') || null;
+// Check for PROLIFIC_PID first (Prolific platform), then fall back to participant_id
+const PARTICIPANT_ID = urlParams.get('PROLIFIC_PID') || urlParams.get('participant_id') || null;
 
 // Global variables for WAVE integration
 let waveClient = null;
@@ -57,6 +61,7 @@ function initializeWaveClient() {
     if (!WAVE_API_KEY || !EXPERIMENT_ID || !PARTICIPANT_ID) {
         console.warn('⚠️ WAVE parameters missing. Data will only be displayed locally.');
         console.warn('Required URL format: https://yoursite.com/?key=YOUR_API_KEY&experiment_id=YOUR_EXPERIMENT_ID&participant_id=PARTICIPANT_ID');
+        console.warn('For Prolific: Use PROLIFIC_PID instead of participant_id (either parameter works)');
         return false;
     }
 
