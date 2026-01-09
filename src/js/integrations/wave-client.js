@@ -28,7 +28,7 @@ Note: PROLIFIC_PID is checked first, then participant_id. Either one will work.
 For more information: https://github.com/WAVE-Lab-Williams/wave-client/
 */
 
-import WaveClient from 'https://cdn.jsdelivr.net/gh/WAVE-Lab-Williams/wave-client@v1.0.0/javascript/dist/wave-client.esm.js';
+import WaveClient from 'https://cdn.jsdelivr.net/gh/WAVE-Lab-Williams/wave-client@v1.1.0/javascript/dist/wave-client.esm.js';
 
 // Extract URL parameters
 const urlParams = new URLSearchParams(window.location.search);
