@@ -1,0 +1,94 @@
+---
+output:
+  reprex::reprex_document:
+    venue: "gh"
+    advertise: FALSE
+    session_info: TRUE
+    style: TRUE
+    comment: "#;-)"
+    tidyverse_quiet: FALSE
+    std_out_err: TRUE
+knit: reprex::reprex_render
+---
+
+This template demonstrates many of the bells and whistles of the `reprex::reprex_document()` output format. The YAML sets many options to non-default values, such as using `#;-)` as the comment in front of output.
+
+## Code style
+
+Since `style` is `TRUE`, this difficult-to-read code (look at the `.Rmd` source file) will be restyled according to the Tidyverse style guide when it's rendered. Whitespace rationing is not in effect!
+
+```{r}
+x=1;y=2;z=x+y;z
+```
+
+## Quiet tidyverse
+
+The tidyverse meta-package is quite chatty at startup, which can be very useful in exploratory, interactive work. It is often less useful in a reprex, so by default, we suppress this.
+
+However, when `tidyverse_quiet` is `FALSE`, the rendered result will include a tidyverse startup message about package versions and function masking.
+
+```{r, eval = requireNamespace("tidyverse", quietly = TRUE)}
+library(tidyverse)
+```
+
+
+
+```{r}
+table <- read.csv("data/dataframe_answer.csv", header = TRUE)
+```
+
+```{r}
+table <- table |> mutate(chosen_object = str_remove_all(chosen_image,"^obj|_sha.*"))
+
+table <- table |> mutate(consistent_object = chosen_object == target_object)
+table <- table |> mutate(consistent_shadow = chosen_object == target_shadow)
+table <- table |> mutate(all_object = consistent_object & consistent_shadow)
+```
+
+
+```{r}
+table |>
+  # 1. Categorize each row into one of the three exclusive groups
+  mutate(Category = case_when(
+    all_object ~ "Both",
+    consistent_object & !all_object ~ "Object Only",
+    consistent_shadow & !all_object ~ "Shadow Only"
+  )) |>
+  # 2. Remove rows that don't fit (optional)
+  filter(!is.na(Category)) |>
+  # 3. Count how many are in each category
+  count(Category) |>
+  # 4. Plot
+  ggplot(aes(x = "", y = n, fill = Category)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) + # This turns the bar into a pie
+  labs(title = "Object Memory Responses") +
+  theme_void()
+```
+
+
+```{r}
+table |>
+  pivot_longer(
+    cols = c(consistent_object, consistent_shadow, all_object), 
+    names_to = "Category", 
+    values_to = "Status"
+  ) |>
+  filter(Status == TRUE) |>
+  ggplot(aes(x = Category, fill = Category)) +
+  geom_bar() +
+  scale_x_discrete(labels = c(
+    "all_object" = "Both",
+    "consistent_object" = "Object",
+    "consistent_shadow" = "Shadow"
+  )) + 
+  scale_fill_discrete(
+    labels = c("all_object" = "Both",
+    "consistent_object" = "Object",
+    "consistent_shadow" = "Shadow")
+  ) +
+  labs(
+    title = "Object Memory Responses",
+    y = "Count"
+  )
+```
