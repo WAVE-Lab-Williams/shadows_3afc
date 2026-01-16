@@ -236,6 +236,9 @@ var factors = {
 };
 
 var full_design = jsPsych.randomization.factorial(factors, 1);
+
+full_design = full_design.filter(permutation => permutation.object !== permutation.shadow);
+
 console.log(full_design);
 
 /* -------  Set Preload Images for Expt (*preload_expt) -------------- */
