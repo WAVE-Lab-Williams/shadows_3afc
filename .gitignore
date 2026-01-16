@@ -164,3 +164,7 @@ dmypy.json
 
 # UV specific
 uv.lock
+
+# data folders
+tools/data/*
+temp/
