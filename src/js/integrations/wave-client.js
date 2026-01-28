@@ -133,7 +133,7 @@ function processTrialData(data) {
             trial_type: data.trial_type,
             trial_category: data.trial_category,
             stimulus: data.stimulus,
-            response: data.response,
+            response: JSON.stringify(data.response),
             response_time: data.rt,
             accuracy: data.thisAcc,
             correct_response: data.correct_response,
