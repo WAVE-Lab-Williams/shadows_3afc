@@ -178,8 +178,8 @@ INSTR PROCEDURE (*sec_instr)
 
 /* -------  Push Instr + Demo Trials to timeline_instr (*push_instr) -------------- */
 var instrContent = loadInstrContent();
-var demoTrialIndex = 3;
-var [instrContent_beforedemo,instrContent_afterdemo] = cutArray(instrContent,3);
+var memorize_numberTrialIndex = 5;
+var [instrContent_beforedemo,instrContent_afterdemo] = cutArray(instrContent,memorize_numberTrialIndex);
 
 var instructions1 = {
     type: jsPsychInstructions,
@@ -190,8 +190,9 @@ var instructions1 = {
     delay_time: function(){
         const calculated_delays = [];
         for (let i = 0; i < instrContent.length; i++) {
-            calculated_delays.push(calculate_delay_time(count_words(instrContent[i]),60));
+            calculated_delays.push(calculate_delay_time(count_words(instrContent_beforedemo[i]),60));
         }
+        console.log(calculated_delays)
         return calculated_delays
     }, // end delay_time
 };
@@ -204,16 +205,29 @@ var instructions2 = {
     allow_backward: false,
     delay_time: function(){
         const calculated_delays = [];
-        for (let i = demoTrialIndex; i < instrContent.length; i++) {
-            calculated_delays.push(calculate_delay_time(count_words(instrContent[i]),60));
+        for (let i = 0; i < instrContent_afterdemo.length; i++) {
+            calculated_delays.push(calculate_delay_time(count_words(instrContent_afterdemo[i]),60));
         }
+        console.log(calculated_delays)
         return calculated_delays
     }, // end delay_time
 };
 
+var memorize_number_trial = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<p> Memorize this number:</p><h1>78651430</h1>`,
+        choices: "NO_KEYS",
+        trial_duration: 8000,
+        data: {
+            trial_category: 'memorize_number_trial',
+        }
+    };
+
+
 timelineinstr.push(instructions1);
+timelineinstr.push(memorize_number_trial);
 // runSingleTrial(thisDemoCircle,thisDemoDispDuration,timelineinstr,"prac") // pushesyour demo trial (COMMENTED OUT ON PURPOSE)
-timelineinstr.push(instructions2);
+// timelineinstr.push(instructions2);
 
 /*
 ===============================================================
@@ -224,7 +238,7 @@ EXPERIMENT SECTION (*sec_expt)
 /* -------- defining factors && exptdesign (*factors) --------*/
 var poss_objects = ["A", "B", "C", "D"];
 var poss_shadows = ["A", "B", "C", "D"];
-var poss_disp_duration = [500];
+var poss_disp_duration = [500, 700, 900];
 
 var test_objects = ["A", "B"]
 var test_shadows = ["A", "B", "C", "D"]
@@ -271,16 +285,22 @@ var feedback_summary = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function() {
 
-    var trials = jsPsych.data.get().filter({trial_category: 'answerexpt'});
-    var correct_trials = trials.filter({thisAcc: 1});
-    var accuracy = Math.round(correct_trials.count() / trials.count() * 100);
-    var rt = Math.round(correct_trials.select('rt').mean());
-
-    return `<p>You responded correctly on ${accuracy}% of the trials.</p>
-        <p>Your average response time was ${rt}ms.</p>
-        <p>Press any key to continue to the next part of the study.</p>`;
+    var trialAcc = jsPsych.data.get().filter({trial_category: 'number_memory_response'}).select("thisAcc").values; 
+    console.log(trialAcc)
+    if (trialAcc[0] == 1) {
+        return `<p> You correctly recalled the number! Great! </p><p>Press the spacebar to continue.</p>`
+    } else {
+        return `<p> Unfortunately, the reported number was incorrect. Don't worry, we designed it to be difficult! </p><p>Press the spacebar to continue.</p>`
     }
-};
+    
+    // var accuracy = Math.round(correct_trials.count() / trials.count() * 100);
+    // var rt = Math.round(correct_trials.select('rt').mean());
+
+    // return `<p>You responded correctly on ${accuracy}% of the trials.</p>
+    //     <p>Your average response time was ${rt}ms.</p>
+    //     <p>Press any key to continue to the next part of the study.</p>`;
+    }
+}; //end feedback_summary
 
 var debrief_qs = {
     type: jsPsychSurveyHtmlForm,
@@ -310,7 +330,7 @@ var closing = {
     }, // on finish complete
 };
 
-//timelineclose.push(feedback_summary);
+timelineclose.push(feedback_summary);
 //timelineclose.push(debrief_qs);
 timelineclose.push({ type: jsPsychFullscreen, fullscreen_mode: false });
 timelineclose.push(closing);

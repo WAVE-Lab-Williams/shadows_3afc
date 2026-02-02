@@ -6,10 +6,6 @@ Defining Parameter Variables
 
 var stimFolder = 'src/assets/stimuli/renders/'
 
-var trial_pairs = [
-
-    
-]
 
 var runIntro = true;
 var runInstr = true;
@@ -21,7 +17,7 @@ var runPreload = true;
 var PRESTIM_DISP_TIME = 800;
 var FIXATION_DISP_TIME = 2500;
 var MASK_DISP_TIME = 300;
-var AFC_TIME = 10000
+// var AFC_TIME = 10000
 
 // Variables for Participant Information
 var estTotalRunTime = 4;
