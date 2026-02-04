@@ -49,6 +49,30 @@ function runSingleTrial(
     var thisTarget = `${stimFolder}obj${target_object}_sha${target_shadow}.png`;
     var persistent_prompt = `<div style="position: fixed; top: 50px; left: 50%; transform: translateX(-50%); text-align: center;"></div>`;
 
+    var input_number = {
+        type: jsPsychSurveyHtmlForm,
+        preamble: '<p>To the best of your ability, please type the number you were told to memorize in the box below: </p>',
+        html: '<h1><input name="first" type="number"/></h1>',
+        data: {trial_category: "number_memory_response"
+        }, 
+        on_finish: function (data) {
+            var respObj = data.response;
+            for (var key in respObj) {
+                if (respObj[key] == "78651430") {
+                    console.log(
+                        'The input is consistent with 78651430',
+                    );
+                    data.thisAcc = 1
+                } else {
+                    console.log(
+                        'The input is inconsistent with 78651430',
+                    );
+                    data.thisAcc = 0
+                };
+            }; //end for loop
+        }, //end on_finish
+    }; //end var input_number
+
     var dispImage = {
         type: jsPsychImageKeyboardResponse,
         stimulus: thisTarget,
@@ -103,7 +127,7 @@ function runSingleTrial(
         type: jsPsychHtmlButtonResponse,
         stimulus: `<h1>Select the image you saw:</h1>`,
         choices: shuffled_AFCchoices,
-        button_html: `<button class="jspsych-btn image-choice">%choice%</button>`,
+        button_html: `<button style="background-color: #afafaf; border-width: 5px; border-radius: 14px; margin-bottom: 10px;" class="jspsych-btn image-choice">%choice%</button>`,
         data: {
             afc_order: function(){
                 console.log(JSON.stringify(shuffled_AFCchoices))
@@ -113,7 +137,7 @@ function runSingleTrial(
             target_shadow: target_shadow,
             trial_category: "afc" + trialType
         },
-        trial_duration: AFC_TIME, 
+        trial_duration: null, 
         on_finish: function(data){
             if (data.response == null) {
                 data.chosen_image = "timedout"
@@ -133,6 +157,9 @@ function runSingleTrial(
     timelineTrialsToPush.push(fixation);
     timelineTrialsToPush.push(dispImage);
     timelineTrialsToPush.push(mask);
+    timelineTrialsToPush.push(cursor_on);
+    timelineTrialsToPush.push(input_number);
+    timelineTrialsToPush.push(cursor_off);
     timelineTrialsToPush.push(afc_trial);
     timelineTrialsToPush.push(cursor_on);
 
