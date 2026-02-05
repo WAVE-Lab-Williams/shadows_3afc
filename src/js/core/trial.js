@@ -58,14 +58,14 @@ function runSingleTrial(
         on_finish: function (data) {
             var respObj = data.response;
             for (var key in respObj) {
-                if (respObj[key] == "78651430") {
+                if (respObj[key] == "6083") {
                     console.log(
-                        'The input is consistent with 78651430',
+                        'The input is consistent with 6083',
                     );
                     data.thisAcc = 1
                 } else {
                     console.log(
-                        'The input is inconsistent with 78651430',
+                        'The input is inconsistent with 6083',
                     );
                     data.thisAcc = 0
                 };
