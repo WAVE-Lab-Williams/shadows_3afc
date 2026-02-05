@@ -215,7 +215,7 @@ var instructions2 = {
 
 var memorize_number_trial = {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: `<p> Memorize this number:</p><h1>78651430</h1>`,
+        stimulus: `<p> Memorize this number:</p><h1>6083</h1>`,
         choices: "NO_KEYS",
         trial_duration: 8000,
         data: {

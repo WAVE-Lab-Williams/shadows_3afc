@@ -10,6 +10,10 @@ output:
     std_out_err: TRUE
 knit: reprex::reprex_render
 ---
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 ## Quiet tidyverse
 
 The tidyverse meta-package is quite chatty at startup, which can be very useful in exploratory, interactive work. It is often less useful in a reprex, so by default, we suppress this.
@@ -32,6 +36,7 @@ table <- table |> mutate(chosen_object = str_remove_all(chosen_image,"^obj|_sha.
 table <- table |> mutate(consistent_object = chosen_object == target_object)
 table <- table |> mutate(consistent_shadow = chosen_object == target_shadow)
 table <- table |> mutate(all_object = consistent_object & consistent_shadow)
+table <- table |> mutate(neither = (chosen_object != target_object) & (chosen_object != target_shadow))
 ```
 
 
@@ -63,7 +68,7 @@ table |>
 ```{r}
 table |>
   pivot_longer(
-    cols = c(consistent_object, consistent_shadow, all_object), 
+    cols = c(consistent_object, consistent_shadow, all_object, neither), 
     names_to = "Category", 
     values_to = "Status"
   ) |>
@@ -71,17 +76,34 @@ table |>
   ggplot(aes(x = Category, fill = Category)) +
   geom_bar() +
   scale_x_discrete(labels = c(
+    "neither" = "Neither",
     "all_object" = "Both",
     "consistent_object" = "Object",
     "consistent_shadow" = "Shadow"
   )) + 
   scale_fill_discrete(
-    labels = c("all_object" = "Both",
+    labels = c("neither" = "Neither",
+    "all_object" = "Both",
     "consistent_object" = "Object",
     "consistent_shadow" = "Shadow")
   ) +
   labs(
     title = "Object Memory Responses",
     y = "Count"
-  )
+  ) +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+
+
+
+
+
+
+```{r}
+sum(table$consistent_object)
+sum(table$consistent_shadow)
+sum(table$all_object)
+sum(table$neither)
 ```
