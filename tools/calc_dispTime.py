@@ -51,7 +51,7 @@ df_answer['calced_stim_duration'] = df_answer.apply(
 )
 
 # Round to nearest 100
-df_answer['calced_stim_duration_rounded'] = (df_answer['calced_stim_duration'] / 100).round() * 100
+df_answer['calced_stim_duration_rounded'] = (df_answer['calced_stim_duration'] // 100) * 100
 df_answer['calced_stim_duration_rounded'] = df_answer['calced_stim_duration_rounded'].astype('Int64')
 
 df_answer.to_csv(answer_path, index=False)
