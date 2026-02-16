@@ -238,7 +238,7 @@ EXPERIMENT SECTION (*sec_expt)
 /* -------- defining factors && exptdesign (*factors) --------*/
 var poss_objects = ["A", "B", "C", "D"];
 var poss_shadows = ["A", "B", "C", "D"];
-var poss_disp_duration = [500,700,900];
+var poss_disp_duration = [700,900];
 
 var test_objects = ["A", "B"]
 var test_shadows = ["A", "B", "C", "D"]
