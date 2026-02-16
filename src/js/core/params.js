@@ -4,7 +4,7 @@ Defining Parameter Variables
 ===============================================================
 */
 
-var stimFolder = 'src/assets/stimuli/renders/'
+var stimFolder = randomChoice(['src/assets/stimuli/renders/', 'src/assets/stimuli/renders/bevel'],1)[0];
 
 
 var runIntro = true;
