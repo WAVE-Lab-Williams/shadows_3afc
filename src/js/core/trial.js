@@ -81,6 +81,7 @@ function runSingleTrial(
         trial_duration: stimDuration,
         data: {
             trial_category: 'dispImage' + trialType,
+            dispImage_duration: stimDuration,
         }
     }; // dispImage end
 
@@ -135,6 +136,8 @@ function runSingleTrial(
             },
             target_object: target_object,
             target_shadow: target_shadow,
+            dispImage_duration: stimDuration,
+            stimFolder: stimFolder,
             trial_category: "afc" + trialType
         },
         trial_duration: null, 
