@@ -101,7 +101,7 @@ var consent = {
     data: { trial_category: 'consent' },
 };
 
-// First check for PROLIFIC_PID, then participant_id, then generate random
+// First check for PROLIFIC_PID, then participant_id, then randomly generate id for now
 var workerID = getURLParameter('PROLIFIC_PID');
 if (workerID === 'no_query') {
     workerID = getURLParameter('participant_id');
@@ -110,7 +110,7 @@ if (workerID === 'no_query') {
 if (workerID !== 'no_query') {
     console.log('Worker singID captured from URL:', workerID);
 } else {
-    workerID = 'no_query_worker'+ Math.floor(Math.random() * 90000) + 10000;
+    workerID = 'no_query_worker'+ Math.floor(Math.random() * 90000 + 10000);
     console.warn('⚠️ No participant ID found in URL - randomly generated:', workerID);
 }
 
@@ -128,18 +128,18 @@ var id = {
                 );
             } else if (workerID.startsWith('no_query')) {
                 console.log(
-                    `The query was not successfully captured, or there was nothing to query, going with manual input. workerID now = ${respObj[key]}`,
+                    `The query was not successfully captured, or there was nothing to query, now going to add the manual input to the end of the no query. workerID now = ${workerID + respObj[key]}`,
                 );
-                workerID = respObj[key];
-            } else if (workerID.startsWith('manual_input')) {
-                console.log(`The query designates to go with the manual input. workerID now = ${respObj[key]}`)
-                workerID = respObj[key]
+                workerID = workerID + respObj[key];
             } else {
                 console.log(
-                    'The manual type differed from the query capture, going with query capture. Assuming the manual input was the wrong one, and that query was correct.',
+                    'The manual type differed from the query capture, and for some reason no_query was no generated, so going with manual input, whatever it is. If this happens, something has gone wrong.',
                 );
+                workerID = respObj[key];
             }
         } /*end of for loop*/
+        // Retroactively update all prior trials with the finalized workerID
+        jsPsych.data.get().addToAll({participant_id: workerID});
     } /*end of on_finish*/,
 }; /* end of id*/
 
@@ -238,7 +238,7 @@ EXPERIMENT SECTION (*sec_expt)
 /* -------- defining factors && exptdesign (*factors) --------*/
 var poss_objects = ["A", "B", "C", "D"];
 var poss_shadows = ["A", "B", "C", "D"];
-var poss_disp_duration = [500, 700, 900];
+var poss_disp_duration = [700,900];
 
 var test_objects = ["A", "B"]
 var test_shadows = ["A", "B", "C", "D"]
@@ -256,8 +256,8 @@ full_design = full_design.filter(permutation => permutation.object !== permutati
 console.log(full_design);
 
 /* -------  Set Preload Images for Expt (*preload_expt) -------------- */
-for (var i = 0; i < poss_objects.length; i++){
-    for (var j = 0; j < poss_shadows.length; j++){
+for (var i = 0; i < test_objects.length; i++){
+    for (var j = 0; j < test_shadows.length; j++){
         forPreload.push(`${stimFolder}obj${poss_objects[i]}_sha${poss_shadows[j]}.png`)
     }
 };

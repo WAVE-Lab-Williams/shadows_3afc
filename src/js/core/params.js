@@ -4,7 +4,7 @@ Defining Parameter Variables
 ===============================================================
 */
 
-var stimFolder = 'src/assets/stimuli/renders/'
+var stimFolder = randomChoice(['src/assets/stimuli/renders/', 'src/assets/stimuli/renders/bevel/'],1)[0];
 
 
 var runIntro = true;
@@ -20,8 +20,8 @@ var MASK_DISP_TIME = 300;
 // var AFC_TIME = 10000
 
 // Variables for Participant Information
-var estTotalRunTime = 4;
-var estDollars = 0.55;
+var estTotalRunTime = 3;
+var estDollars = 0.42;
 var participantType = 'prolific';
 var completionCode = 'C31LNN84';
 var prolific_url = 'https://app.prolific.co/submissions/complete?cc='+completionCode;

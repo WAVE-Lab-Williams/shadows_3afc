@@ -15,7 +15,7 @@
 ]
 
   [tool.uv.sources]
-  wave-client = { path = "https://github.com/WAVE-Lab-Williams/wave-client/releases/latest/download/wave_client-1.1.0-py3-none-any.whl" }
+  wave-client = { url = "https://github.com/WAVE-Lab-Williams/wave-client/releases/latest/download/wave_client-1.1.0-py3-none-any.whl" }
 
   [tool.black]
   line-length = 100
