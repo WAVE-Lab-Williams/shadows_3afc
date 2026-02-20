@@ -260,7 +260,6 @@ for (var i = 0; i < test_objects.length; i++){
     for (var j = 0; j < test_shadows.length; j++){
         forPreload.push(`${stimFolder}obj${poss_objects[i]}_sha${poss_shadows[j]}.png`)
     }
-    forPreload.push(`${stimFolder}obj${poss_objects[i]}_blank.png`)
 };
 forPreload.push(`${stimFolder}frame.png`); // preload frame for instructions!
 forPreload.push(`${stimFolder}mask_v3.png`); // preload isi mask for viewing
